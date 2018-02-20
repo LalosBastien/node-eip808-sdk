@@ -5,13 +5,14 @@
   "main": "index.js",
   "directories": {
     "lib": "lib",
-    "test": "test"
+    "test": "testSDK"
   },
   "scripts": {
-    "test": "mocha test/*.js"
+    "testSDK": "mocha test/testSDK/*.js"
   },
   "bin": {
-    "init": "./bin/init"
+    "init": "./bin/init",
+    "listAccounts": "./bin/listAccounts"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,10 @@
   "devDependencies": {
     "mocha": "",
     "should": ""
+  },
+  "dependencies": {
+    "ganache-cli": "^6.0.3",
+    "solc": "^0.4.20",
+    "web3": "^1.0.0-beta.30"
   }
 }

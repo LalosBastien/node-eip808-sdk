@@ -1,3 +1,4 @@
+
 pragma solidity ^0.4.19;
 pragma experimental ABIEncoderV2;
 
@@ -21,7 +22,7 @@ contract RES {
         availability		_offer;
 	    BookingStatus    _bookingStatus;
     }
-    
+
 
     availability[] public availabilities;
     reservation[] public reservations;
@@ -32,12 +33,12 @@ contract RES {
             for (uint i=0; i < arrayLength; i++) {
                 availabilities.push(_availability[i]);
             }
-    }    
+    }
 
     function ListAvailabilities(address _requester, string _criterias) public constant returns (availability[]) {
         return availabilities;
     }
-    
+
     function ListReservations(address _requester, string _criterias) public constant returns (reservation[]) {
         return reservations;
     }
@@ -48,8 +49,8 @@ contract RES {
                 _offer: _availability,
                 _bookingStatus: BookingStatus.REQUESTED
         }));
-        
-        
+
+
         return 1;
     }
 
