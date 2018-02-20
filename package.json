@@ -1,0 +1,30 @@
+{
+  "name": "eip808-sdk",
+  "version": "1.0.0",
+  "description": "npm module that allow request on the BlockChain Ethereum using BTU protocol (EIP808)",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LalosBastien/node-eip808-sdk.git"
+  },
+  "keywords": [
+    "Ethereum",
+    "BlockChain",
+    "SDK",
+    "BTU",
+    "EIP808"
+  ],
+  "author": "Lalos Bastien",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/LalosBastien/node-eip808-sdk/issues"
+  },
+  "homepage": "https://github.com/LalosBastien/node-eip808-sdk#readme"
+}
