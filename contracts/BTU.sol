@@ -31,7 +31,11 @@ contract BTU is BTUInterface {
         totalSupply = _initialAmount;                        // Update total supply
         name = _tokenName;                                   // Set the name for display purposes
         decimals = _decimalUnits;                            // Amount of decimals for display purposes
-        symbol = _tokenSymbol;                               // Set the symbol for display purposes
+        symbol = _tokenSymbol;                              // Set the symbol for display purposes
+    }
+
+    function getName() public view returns (string tokenName) {
+        return name;
     }
 
     function transfer(address _to, uint256 _value) public returns (bool success) {

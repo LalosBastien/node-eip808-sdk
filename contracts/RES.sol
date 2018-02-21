@@ -7,13 +7,13 @@ contract RES {
     struct availability {
     	address                  _ownerAddress;
     	uint                     _resourceId;
-        uint                     _type;
+      uint                      _type;
     	uint                     _minDeposit;
     	uint                     _commission;
     	uint                     _freeCancelDateTs;
     	uint                     _startDateTs;
     	uint                     _endDateTs;
-        uint			         _quantity;
+      uint			               _quantity;
     	string                   _metaDataLink;
     }
 

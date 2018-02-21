@@ -1,46 +1,48 @@
 {
-    "name": "eip808-sdk",
-    "version": "1.0.0",
-    "description": "npm module that allow request on the BlockChain Ethereum using BTU protocol (EIP808)",
-    "main": "index.js",
-    "directories": {
-	"lib": "lib",
-	"test": "test"
-    },
-    "scripts": {
-	"start": "node index.js",
-	"test": "mocha test/*.js"
-    },
-    "bin": {
-	"init": "./bin/init"
-    },
-    "repository": {
-	"type": "git",
-	"url": "git+https://github.com/LalosBastien/node-eip808-sdk.git"
-    },
-    "keywords": [
-	"Ethereum",
-	"BlockChain",
-	"SDK",
-	"BTU",
-	"EIP808"
-    ],
-    "author": "Lalos Bastien",
-    "license": "Apache-2.0",
-    "bugs": {
-	"url": "https://github.com/LalosBastien/node-eip808-sdk/issues"
-    },
-    "homepage": "https://github.com/LalosBastien/node-eip808-sdk#readme",
-    "dependencies": {
-	"eth-lightwallet": "^3.0.1",
-	"ethereumjs-abi": "^0.6.5",
-	"ethereumjs-tx": "^1.3.3",
-	"ethereumjs-util": "^5.1.4",
-	"solc": "^0.4.20",
-	"web3": "^1.0.0-beta.30"
-    },
-    "devDependencies": {
-	"mocha": "",
-	"should": ""
-    }
+   "name": "eip808-sdk",
+   "version": "1.0.0",
+   "description": "npm module that allow request on the BlockChain Ethereum using BTU protocol (EIP808)",
+   "main": "index.js",
+   "directories": {
+      "lib": "lib",
+      "test": "test"
+   },
+   "scripts": {
+      "start": "node index.js",
+      "test": "mocha test/*.js"
+   },
+   "bin": {
+      "init": "./bin/init"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/LalosBastien/node-eip808-sdk.git"
+   },
+   "keywords": [
+      "Ethereum",
+      "BlockChain",
+      "SDK",
+      "BTU",
+      "EIP808"
+   ],
+   "author": "Lalos Bastien",
+   "license": "Apache-2.0",
+   "bugs": {
+      "url": "https://github.com/LalosBastien/node-eip808-sdk/issues"
+   },
+   "homepage": "https://github.com/LalosBastien/node-eip808-sdk#readme",
+   "dependencies": {
+      "eth-lightwallet": "^3.0.1",
+      "ethereumjs-abi": "^0.6.5",
+      "ethereumjs-tx": "^1.3.3",
+      "ethereumjs-util": "^5.1.4",
+      "solc": "^0.4.20",
+      "web3": "^1.0.0-beta.30",
+      "truffle": "4.0.6",
+      "truffle-hdwallet-provider": "0.0.3"
+   },
+   "devDependencies": {
+      "mocha": "",
+      "should": ""
+   }
 }
