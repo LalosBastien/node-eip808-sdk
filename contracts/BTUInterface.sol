@@ -2,6 +2,7 @@
 // https://github.com/ethereum/EIPs/issues/20
 pragma solidity ^0.4.19;
 
+
 contract BTUInterface {
     /* This is a slight change to the ERC20 base standard.
     function totalSupply() constant returns (uint256 supply);
