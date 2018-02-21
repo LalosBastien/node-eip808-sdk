@@ -79,7 +79,6 @@ const Contract = (function() {
  */
 const validateAvailabilityObject = availabilityObject => {
     const objectSchema = Joi.object().keys({
-	_ownerAddress: Joi.string(),
     	_resourceId: Joi.number().integer().min(0),
 	_type: Joi.number().integer().min(0),
     	_minDeposit: Joi.number().integer().min(0),
@@ -92,14 +91,14 @@ const validateAvailabilityObject = availabilityObject => {
     });
     const joiValidation = Joi.validate(availabilityObject, objectSchema);
 
-    if (!web3.utils.isAddress(availabilityObject._ownerAddress))
-	joiValidation.error = {...joiValidation.error, addressError: "Invalid owner address (_ownerAddress)"};
+    // if (!web3.utils.isAddress(availabilityObject._ownerAddress))
+    // 	joiValidation.error = {...joiValidation.error, addressError: "Invalid owner address (_ownerAddress)"};
 
     return joiValidation;
 };
 
 const RES = (function() {
-    const CONTRACT_ADDRESS = '0x401d8f290b5f05711cf277dc31baa1afcb271bde';
+    const CONTRACT_ADDRESS = '0xe2b8acbd0317b88d05ed72cef50c7c5edaa8a461';
     const ABI_FILE_PATH = `${process.cwd()}/build/contracts/RES.json`;
 
     let contract = null;
@@ -107,8 +106,10 @@ const RES = (function() {
     const methods = {
 	async publishOffer(accountAddress, availabilityObject) {
 	    const validateAvailability = validateAvailabilityObject(availabilityObject);
-	    if (validateAvailability.error)
+	    if (validateAvailability.error) {
+		console.error(validateAvailability.error);
 		throw validateAvailability.error;
+	    }
 	    if (!web3.utils.isAddress(accountAddress))
 		throw new Error(`Invalid account address :  ${accountAddress}`);
 
@@ -117,7 +118,7 @@ const RES = (function() {
 		      .map(key => availabilityObject[key]);
 
 	    /* TEST */
-	    const res = await contract.methods.publishAvailabilities(...adaptList).send({
+	    const res = await contract.methods.publishAvailability(...adaptList).send({
 		from: accountAddress,
 		gas: 4500000
 	    });
@@ -126,8 +127,13 @@ const RES = (function() {
 	},
 
 	async listOffers(requesterAddress, criterias) {
-	    const res = await contract.methods.ListAvailabilities(// requesterAddress, criterias
-								 ).call();
+	    const res = await contract.methods.ListAvailabilities().call();
+
+	    return res;
+	},
+
+	async readOffer(id) {
+	    const res = await contract.methods.ReadAvailability(id).call();
 
 	    return res;
 	}
@@ -149,11 +155,10 @@ const RES = (function() {
 })();
 
 
-const ACCOUNT_ADDRESS = '0x50077E8E46d1a1fe84aE88b706c4134aDFae93D0';
-const ACCOUNT_PRIVATE_KEY = 'e72e7951f4cb494aca9d6e3ce50b3dd740d6798415b1b6e9fa9a419c9110b7be';
+const ACCOUNT_ADDRESS = '0x2640b89874a9c444c23115babe4f0ec68cd8303e';
+const ACCOUNT_PRIVATE_KEY = 'b1ab7758a18da62149c08e8362bd6bb4de0190a9a27ad475fed9c65d206c5170';
 
 const availabilityTest = {
-	_ownerAddress: '0x50077E8E46d1a1fe84aE88b706c4134aDFae93D0',
     	_resourceId: 4242,
 	_type: 1,
     	_minDeposit: 30000,
@@ -188,7 +193,11 @@ const getAccountList = async () => {
 
     const test = await RESContract.publishOffer(ACCOUNT_ADDRESS, availabilityTest);
     const test2 = await RESContract.listOffers(ACCOUNT_ADDRESS, "string_criteria");
-
     console.log({test});
     console.log({test2});
+
+    test2.forEach(async (n) => {
+	const t = await RESContract.readOffer(n);
+	console.log({t});
+    });
 })();
