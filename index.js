@@ -69,11 +69,21 @@ const Contract = (function() {
     return Contract;
 })();
 
-// good : 0x45e0f8fbdd277a4cafa2979d94579d87f0163165
-// bad  : 0x03a4ef54561e0245fa3dfb9ee27469b7cb6da563
+const Account = (function() {
+    function Account() {
+
+
+	return this;
+    };
+
+    return Account;
+})();
 
 
 const SimpleStorage = (function() {
+    const CONTRACT_ADDRESS = '0x45e0f8fbdd277a4cafa2979d94579d87f0163165';
+    const ABI_FILE_PATH = `${process.cwd()}/build/contracts/SimpleStorage.json`;
+
     let contract = null;
 
     const methods = {
@@ -88,25 +98,34 @@ const SimpleStorage = (function() {
         }
     };
 
+    /*
+     * Retrieve the contract with address and ABI, and then apply custom methods to communicate with the contract
+     */
+
     return new Promise((resolve, reject) => {
         new Contract()
-            .withAddress('0x45e0f8fbdd277a4cafa2979d94579d87f0163165')
-            .withABI(`${process.cwd()}/build/contracts/SimpleStorage.json`)
+            .withAddress(CONTRACT_ADDRESS)
+            .withABI(ABI_FILE_PATH)
             .then(_contract => {
                 contract = _contract;
 
-                return resolve({
-                    ...methods // expose methods when contract is ready
-                });
+                return resolve(methods); // expose methods when contract is ready
             });
     });
 })();
 
 
 (async function main() {
+
+
     const storage = await SimpleStorage;
 
-    console.log(await storage.getData());
-    console.log(await storage.setData('0xe0da00ea810b7d35f0564e7dfc92fe1ced75789c', 42));
-    console.log(await storage.getData());
+    const storageValue = await storage.getData();
+    console.log({storageValue});
+
+    const transactionResult = await storage.setData('0xe0da00ea810b7d35f0564e7dfc92fe1ced75789c', parseInt(storageValue) + 1);
+    console.log({transactionResult});
+
+    const newStorageValue = await storage.getData();
+    console.log({newStorageValue});
 })();
