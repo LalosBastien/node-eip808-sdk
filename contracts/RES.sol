@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 contract RES {
     enum BookingStatus { REQUESTED, REJECTED, CONFIRMED, CANCELLED  }
     struct availability {
-    	address                  _ownerAdress;
+    	address                  _ownerAddress;
     	uint                     _resourceId;
         uint                     _type;
     	uint                     _minDeposit;
