@@ -3,7 +3,7 @@ const fs             = require('fs');
 const solc           = require('solc');
 const abi            = require('ethereumjs-abi');
 const util           = require('ethereumjs-util');
-const tx             = require('ethereumjs-tx');
+const Tx             = require('ethereumjs-tx');
 const lightwallet    = require('eth-lightwallet');
 const Joi            = require('joi'); /* Object validation */
 const txutils        = lightwallet.txutils;
@@ -71,49 +71,65 @@ const Contract = (function() {
 })();
 
 
+/* RES */
 
 
+/*
+ * Validate the availibility object
+ */
+const validateAvailabilityObject = availabilityObject => {
+    const objectSchema = Joi.object().keys({
+	_ownerAddress: Joi.string(),
+    	_resourceId: Joi.number().integer().min(0),
+	_type: Joi.number().integer().min(0),
+    	_minDeposit: Joi.number().integer().min(0),
+    	_commission: Joi.number().integer().min(0),
+    	_freeCancelDateTs: Joi.number().integer().min(0),
+    	_startDateTs: Joi.number().integer().min(0),
+    	_endDateTs: Joi.number().integer().min(0),
+	_quantity: Joi.number().integer().min(0),
+    	_metaDataLink: Joi.string()
+    });
+    const joiValidation = Joi.validate(availabilityObject, objectSchema);
 
-const toHex = str => str.split('').map(c => ''+c.charCodeAt(0).toString(16)).join('');
-const genSignature = (address, message) => web3.eth.sign(address, '0x' + toHex(message)); // WIP
+    if (!web3.utils.isAddress(availabilityObject._ownerAddress))
+	joiValidation.error = {...joiValidation.error, addressError: "Invalid owner address (_ownerAddress)"};
+
+    return joiValidation;
+};
 
 const RES = (function() {
-    const CONTRACT_ADDRESS = '0x3c0be4782dc88cd472393aaa04b3ed367bd45ff4';
+    const CONTRACT_ADDRESS = '0x401d8f290b5f05711cf277dc31baa1afcb271bde';
     const ABI_FILE_PATH = `${process.cwd()}/build/contracts/RES.json`;
 
-    const validateAvailabilityObject = availabilityObject => {
-	const objectSchema = Joi.object.keys({
-	    ownerAdress: Joi.string(),
-    	    resourceId: Joi.number().integer().min(0),
-	    type: Joi.number().integer().min(0),
-    	    minDeposit: Joi.number().integer().min(0),
-    	    commission: Joi.number().integer().min(0),
-    	    freeCancelDateTs: Joi.number().integer().min(0),
-    	    startDateTs: Joi.number().integer().min(0),
-    	    endDateTs: Joi.number().integer().min(0),
-	    quantity: Joi.number().integer().min(0),
-    	    metaDataLink: Joi.string()
-	});
-	const arraySchema = Joi.array().items(objectSchema).min(1).required();
-	const joiValidation = Joi.validate(availabilityObject, arraySchema);
-
-	if (!availabilityObject.every(obj => web3.utils.isAddress(obj._ownerAddress)))
-	    joiValidation.error = {...joiValidation.error, addressError: "Invalid owner address (_ownerAddress)"};
-
-	return joiValidation;
-    };
-
     let contract = null;
+
     const methods = {
-	async publishOffer(availabilityObject, accountAddress) {
+	async publishOffer(accountAddress, availabilityObject) {
 	    const validateAvailability = validateAvailabilityObject(availabilityObject);
 	    if (validateAvailability.error)
-		throw new Error(validateAvailability.error);
+		throw validateAvailability.error;
 	    if (!web3.utils.isAddress(accountAddress))
 		throw new Error(`Invalid account address :  ${accountAddress}`);
 
+	    const adaptList = Object.keys(availabilityObject)
+		      .sort((key1, key2) => key1 > key2)
+		      .map(key => availabilityObject[key]);
 
+	    /* TEST */
+	    const res = await contract.methods.publishAvailabilities(...adaptList).send({
+		from: accountAddress,
+		gas: 4500000
+	    });
 
+	    return res;
+	},
+
+	async listOffers(requesterAddress, criterias) {
+	    const res = await contract.methods.ListAvailabilities(// requesterAddress, criterias
+								 ).call();
+
+	    return res;
 	}
     };
 
@@ -127,16 +143,52 @@ const RES = (function() {
             .withABI(ABI_FILE_PATH)
             .then(_contract => {
                 contract = _contract;
-		console.log(contract.methods);
                 return resolve(methods); // expose methods when contract is ready
             });
     });
 })();
 
 
+const ACCOUNT_ADDRESS = '0x50077E8E46d1a1fe84aE88b706c4134aDFae93D0';
+const ACCOUNT_PRIVATE_KEY = 'e72e7951f4cb494aca9d6e3ce50b3dd740d6798415b1b6e9fa9a419c9110b7be';
+
+const availabilityTest = {
+	_ownerAddress: '0x50077E8E46d1a1fe84aE88b706c4134aDFae93D0',
+    	_resourceId: 4242,
+	_type: 1,
+    	_minDeposit: 30000,
+    	_commission: 30,
+    	_freeCancelDateTs: 1519858800,
+    	_startDateTs: 1520377200,
+    	_endDateTs: 1520809200,
+	_quantity: 1,
+    	_metaDataLink: "https://metrouk2.files.wordpress.com/2017/07/187144066.jpg?w=748&h=498&crop=1"
+};
+
+const getAccountList = async () => {
+    const data = await Promise.all(
+	(await web3.eth.getAccounts())
+	    .map(async (address) => ({
+		address,
+		balance: (await web3.eth.getBalance(address))
+	    }))
+    );
+
+    return data.map(account => ({
+	...account,
+	money: `${web3.utils.fromWei(account.balance)} ETH`
+    }));
+};
+
+
 
 (async function main() {
+    console.log(await getAccountList());
     const RESContract = await RES;
 
-    console.log(RESContract);
+    const test = await RESContract.publishOffer(ACCOUNT_ADDRESS, availabilityTest);
+    const test2 = await RESContract.listOffers(ACCOUNT_ADDRESS, "string_criteria");
+
+    console.log({test});
+    console.log({test2});
 })();
