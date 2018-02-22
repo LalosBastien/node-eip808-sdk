@@ -14,13 +14,19 @@ const Contract = (function() {
     /*  == PRIVATE ==  */
 
     const getABIFomFile = ABIFilePath => {
-        try {
-	    var buildFile = fs.readFileSync(ABIFilePath);
-        } catch (e) {
-	    throw new Error(`No ABI found at  ${ABIFilePath}`);
-        }
+	console.log("getABIFomFile : ");
+        // try {
+	//     var buildFile = fs.readFileSync(ABIFilePath);
+        // } catch (e) {
+	//     throw new Error(`No ABI found at  ${ABIFilePath}`);
+        // }
 
-        return JSON.parse(buildFile).abi;
+        // return JSON.parse(buildFile).abi;
+
+	const json = require(ABIFilePath);
+	console.log(json);
+
+	return json;
     };
 
     const buildContract   = function() {
