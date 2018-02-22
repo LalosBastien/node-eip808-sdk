@@ -28,8 +28,6 @@ var Contract = require('./../contractFactory');
 var ethereumjs = require('ethereumjs-abi');
 
 var RES_CONTRACT_ADDRESS = process.env.RES_CONTRACT_ADDRESS || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
-// const RES_ABI_FILE_PATH = process.env.RES_ABI_FILE_PATH
-// 	  || `${__dirname}/../../ressources/build/contracts/RES.json`;
 
 var RES_ABI = require('./ABI/RES.json').abi;
 

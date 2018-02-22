@@ -4,8 +4,7 @@ const ethereumjs     = require('ethereumjs-abi');
 
 const BTU_CONTRACT_ADDRESS = process.env.BTU_CONTRACT_ADDRESS
 	  || '0x98d9f9e8debd4a632682ba207670d2a5acd3c489';
-const BTU_ABI_FILE_PATH = process.env.BTU_ABI_FILE_PATH
-	  || `${__dirname}/../../ressources/build/contracts/BTU.json`;
+const BTU_ABI = require('./ABI/BTU.json').abi;
 
 
 /* BTU Contract */
@@ -25,7 +24,7 @@ const BTU = (function() {
     return new Promise((resolve, reject) => {
         new Contract()
             .withAddress(BTU_CONTRACT_ADDRESS)
-            .withABI(BTU_ABI_FILE_PATH)
+            .withABI(BTU_ABI)
             .then(_contract => {
                 contract = _contract;
                 return resolve(methods); // expose methods when contract is ready
