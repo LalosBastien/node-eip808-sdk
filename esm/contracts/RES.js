@@ -92,7 +92,6 @@ const RES = (function() {
     return new Promise((resolve, reject) => {
         new Contract()
             .withAddress(RES_CONTRACT_ADDRESS)
-        // .withABI(RES_ABI_FILE_PATH)
 	    .withABI(RES_ABI)
             .then(_contract => {
                 contract = _contract;
