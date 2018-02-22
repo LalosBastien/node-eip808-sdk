@@ -11,25 +11,27 @@ contract RES {
     uint                     _freeCancelDateTs;
     uint                     _startDateTs;
     uint                     _endDateTs;
-    uint			         _quantity;
+    uint		     _quantity;
     string                   _metaDataLink;
+    bytes                    _signature;
   }
 
   struct reservation {
     address			_clientAddress;
     availability		_offer;
-    BookingStatus    _bookingStatus;
+    BookingStatus               _bookingStatus;
+    bytes32                     _reservationHash;
   }
 
-  uint availabilitiesNextId = 0;
 
+  uint availabilitiesNextId = 0;
 
   mapping (uint => availability) availabilities;
   uint[] public availabilitiesIds;
 
   reservation[] public reservations;
 
-  function publishAvailability (uint _commission, uint _endDateTs, uint _freeCancelDateTs, string _metaDataLink, uint _minDeposit, uint _quantity, uint _resourceId, uint _startDateTs, uint _type) public {
+  function publishAvailability (uint _commission, uint _endDateTs, uint _freeCancelDateTs, string _metaDataLink, uint _minDeposit, uint _quantity, uint _resourceId, bytes _signature, uint _startDateTs, uint _type) public {
     availabilities[availabilitiesNextId] = availability({
       _resourceId: _resourceId,
 	  _type: _type,
@@ -39,8 +41,10 @@ contract RES {
 	  _startDateTs: _startDateTs,
 	  _endDateTs: _endDateTs,
 	  _quantity: _quantity,
-	  _metaDataLink: _metaDataLink
+	  _metaDataLink: _metaDataLink,
+	  _signature: _signature
 	  });
+
     availabilitiesIds.push(availabilitiesNextId);
     availabilitiesNextId++;
   }
@@ -54,9 +58,9 @@ contract RES {
     return availabilitiesIds;
   }
 
-  function ReadAvailability(uint _availabilityId) view public returns (uint, uint, uint, string, uint, uint, uint, uint, uint) {
+  function ReadAvailability(uint _availabilityId) view public returns (uint, uint, uint, string, uint, uint, uint, bytes, uint, uint) {
     availability storage a = availabilities[_availabilityId];
-    return (a._commission, a._endDateTs, a._freeCancelDateTs, a._metaDataLink, a._minDeposit, a._quantity, a._resourceId, a._startDateTs, a._type);
+    return (a._commission, a._endDateTs, a._freeCancelDateTs, a._metaDataLink, a._minDeposit, a._quantity, a._resourceId, a._signature, a._startDateTs, a._type);
   }
 
   function ListReservations(address _requester, string _criterias) public constant returns (reservation[]) {
@@ -68,7 +72,8 @@ contract RES {
     reservations.push(reservation({
 	_clientAddress: _requester,
 	    _offer: _availability,
-	    _bookingStatus: BookingStatus.REQUESTED
+	    _bookingStatus: BookingStatus.REQUESTED,
+	    _reservationHash: 0
 	    }));
 
 
@@ -78,31 +83,11 @@ contract RES {
   function confirmReservation(address _owner, uint _reservationId) public constant returns (uint status) {
     return 1;
   }
+
+
+
+
+  /* EXPERIMENTAL ZONE */
+
+
 }
-
-/* function publishAvailabilities ( */
-/* 				  uint     _commission, */
-/* 				  uint     _endDateTs, */
-/* 				  uint     _freeCancelDateTs, */
-/* 				  string   _metaDataLink, */
-/* 				  uint     _minDeposit, */
-/* 				  address  _ownerAddress, */
-/* 				  uint     _quantity, */
-/* 				  uint     _resourceId, */
-/* 				  uint     _startDateTs, */
-/* 				  uint     _type */
-/* 				  ) public constant { */
-/*   availability memory _availability; */
-/*   _availability._commission        = _commission; */
-/*   _availability._endDateTs         = _endDateTs; */
-/*   _availability._freeCancelDateTs  = _freeCancelDateTs; */
-/*   _availability._metaDataLink      = _metaDataLink; */
-/*   _availability._minDeposit        = _minDeposit; */
-/*   _availability._ownerAddress      = _ownerAddress; */
-/*   _availability._quantity          = _quantity; */
-/*   _availability._resourceId        = _resourceId; */
-/*   _availability._startDateTs       = _startDateTs; */
-/*   _availability._type              = _type; */
-
-/*   availabilities.push(_availability); */
-/* } */
