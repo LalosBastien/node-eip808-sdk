@@ -15,6 +15,7 @@ contract RES {
     uint                     _endDateTs;
     uint		     _quantity;
     string                   _metaDataLink;
+    string                   _messageHash;
     bytes                    _signature;
   }
 
@@ -34,7 +35,7 @@ contract RES {
 
   reservation[] public reservations;
 
-  function publishAvailability (uint _commission, uint _endDateTs, uint _freeCancelDateTs, string _metaDataLink, uint _minDeposit, uint _quantity, uint _resourceId, bytes _signature, uint _startDateTs, uint _type) public {
+  function publishAvailability (uint _commission, uint _endDateTs, uint _freeCancelDateTs, string  _messageHash, string _metaDataLink, uint _minDeposit, uint _quantity, uint _resourceId, bytes _signature, uint _startDateTs, uint _type) public {
     availabilities[availabilitiesNextId] = availability({
       _resourceId: _resourceId,
 	  _type: _type,
@@ -45,6 +46,7 @@ contract RES {
 	  _endDateTs: _endDateTs,
 	  _quantity: _quantity,
 	  _metaDataLink: _metaDataLink,
+	  _messageHash: _messageHash,
 	  _signature: _signature
 	  });
 
@@ -61,9 +63,9 @@ contract RES {
     return availabilitiesIds;
   }
 
-  function ReadAvailability(uint _availabilityId) view public returns (uint, uint, uint, string, uint, uint, uint, bytes, uint, uint) {
+  function ReadAvailability(uint _availabilityId) view public returns (uint, uint, uint, string, string, uint, uint, uint, bytes, uint, uint) {
     availability storage a = availabilities[_availabilityId];
-    return (a._commission, a._endDateTs, a._freeCancelDateTs, a._metaDataLink, a._minDeposit, a._quantity, a._resourceId, a._signature, a._startDateTs, a._type);
+    return (a._commission, a._endDateTs, a._freeCancelDateTs, a._messageHash, a._metaDataLink, a._minDeposit, a._quantity, a._resourceId, a._signature, a._startDateTs, a._type);
   }
 
   function ListReservations(address _requester, string _criterias) public constant returns (reservation[]) {
