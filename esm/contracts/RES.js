@@ -5,9 +5,10 @@ const ethereumjs     = require('ethereumjs-abi');
 
 const RES_CONTRACT_ADDRESS = process.env.RES_CONTRACT_ADDRESS
 	  || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
-const RES_ABI_FILE_PATH = process.env.RES_ABI_FILE_PATH
-	  || `${__dirname}/../../ressources/build/contracts/RES.json`;
+// const RES_ABI_FILE_PATH = process.env.RES_ABI_FILE_PATH
+// 	  || `${__dirname}/../../ressources/build/contracts/RES.json`;
 
+const RES_ABI = require('./ABI/RES.json').abi;
 
 /* RES Contract */
 const RES = (function() {
@@ -94,7 +95,7 @@ const RES = (function() {
         new Contract()
             .withAddress(RES_CONTRACT_ADDRESS)
         // .withABI(RES_ABI_FILE_PATH)
-	    .withABI(require('./ABI/RES.json').abi)
+	    .withABI(RES_ABI)
             .then(_contract => {
                 contract = _contract;
                 return resolve(methods); // expose methods when contract is ready

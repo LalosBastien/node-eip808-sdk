@@ -11,49 +11,72 @@ var _createClass3 = _interopRequireDefault(_createClass2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ipfsAPI = require('ipfs-api');
+var fs = require('fs');
 
 var Ipfs = function () {
-  function Ipfs(ip, port, _this) {
+  function Ipfs(ip, port, callbackImage, callbackData) {
     (0, _classCallCheck3.default)(this, Ipfs);
 
-    this._this = _this;
+    // this._this = _this
     this.ipfsApi = ipfsAPI(ip || 'localhost', port || '5001');
     this.captureFile = this.captureFile.bind(this);
-    this.saveToIpfs = this.saveToIpfs.bind(this);
+    this.saveJSONtoIpfs = this.saveJSONtoIpfs.bind(this);
+    this.saveFileToIpfs = this.saveFileToIpfs.bind(this);
     this.arrayBufferToString = this.arrayBufferToString.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.callbackImage = callbackImage;
+    this.callbackData = callbackData;
   }
 
   (0, _createClass3.default)(Ipfs, [{
     key: 'captureFile',
     value: function captureFile(event) {
-      var _this2 = this;
+      var _this = this;
 
       event.stopPropagation();
       event.preventDefault();
       var file = event.target.files[0];
       var reader = new window.FileReader();
       reader.onloadend = function () {
-        return _this2.saveToIpfs(reader);
+        return _this.saveFileToIpfs(reader);
       };
       reader.readAsArrayBuffer(file);
     }
   }, {
-    key: 'saveToIpfs',
-    value: function saveToIpfs(reader) {
-      var _this3 = this;
+    key: 'saveFileToIpfs',
+    value: function saveFileToIpfs(reader) {
+      var _this2 = this;
 
       var ipfsId = void 0;
       var buffer = Buffer.from(reader.result);
-      this.ipfsApi.add(buffer, { progress: function progress(prog) {
-          return console.log('received: ' + prog);
-        } }).then(function (response) {
+      this.ipfsApi.add(buffer, {/*progress: (prog) => console.log(`received: ${prog}`) */}).then(function (response) {
         console.log(response);
         ipfsId = response[0].hash;
         console.log(ipfsId);
-        _this3._this.setState({ added_file_hash: ipfsId });
+        _this2.callbackImage(ipfsId);
+        // this._this.setState({added_file_hash: ipfsId})
       }).catch(function (err) {
         console.error(err);
+      });
+    }
+  }, {
+    key: 'saveJSONtoIpfs',
+    value: function saveJSONtoIpfs(json) {
+      var _this3 = this;
+
+      var ipfsId = void 0;
+      var save = JSON.stringify(json);
+      console.log(save);
+      var buffer = Buffer.from(save);
+      console.log(buffer);
+      this.ipfsApi.add(buffer, {/*progress: (prog) => console.log(`received: ${prog}`) */}).then(function (response) {
+        console.log(response);
+        ipfsId = response[0].hash;
+        _this3.callbackData(ipfsId);
+        // this._this.setState({added_file_hash: ipfsId})
+        console.log("SAVING JSON : ", ipfsId);
+      }).catch(function (err) {
+        console.error("ERROR : ", err);
       });
     }
   }, {
