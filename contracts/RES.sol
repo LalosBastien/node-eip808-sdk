@@ -1,18 +1,21 @@
+import "./BTU.sol";
+
+
 pragma solidity ^0.4.19;
 pragma experimental ABIEncoderV2;
 
 contract RES {
-    enum BookingStatus { REQUESTED, REJECTED, CONFIRMED, CANCELLED  }
+    enum BookingStatus { REQUESTED, REJECTED, CONFIRMED, CANCELLED  }    
     struct availability {
-    	uint                     _resourceId;
+     uint                     _resourceId;
       uint                      _type;
-    	uint                     _minDeposit;
-    	uint                     _commission;
-    	uint                     _freeCancelDateTs;
-    	uint                     _startDateTs;
-    	uint                     _endDateTs;
+      uint                     _minDeposit;
+      uint                     _commission;
+      uint                     _freeCancelDateTs;
+      uint                     _startDateTs;
+      uint                     _endDateTs;
       uint			               _quantity;
-    	string                   _metaDataLink;
+      string                   _metaDataLink;
     }
 
     struct reservation {
@@ -21,8 +24,8 @@ contract RES {
 	    BookingStatus    _bookingStatus;
     }
 
+    address BTUAddress = 0x345ca3e014aaf5dca488057592ee47305d9b3e10;
     uint availabilitiesNextId = 0;
-    
 
     mapping (uint => availability) availabilities;
     uint[] public availabilitiesIds;
@@ -45,8 +48,9 @@ contract RES {
 	    availabilitiesNextId++;
     }   
 
-    function size() returns (uint) {
-	return availabilitiesNextId;
+    function GetBTUTotalSupply() public constant returns (uint) {
+	BTU btu = BTU(BTUAddress);
+        return btu.totalSupply();
     }
 
     
