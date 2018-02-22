@@ -3,24 +3,14 @@ const validator      = require('./../utils/validation');
 const Contract       = require('./../contractFactory');
 const ethereumjs     = require('ethereumjs-abi');
 
-/*  WORK ZONE  */
-
-
-/* TODOs */
-
-    // - mettre en place des restrictions (par exemple avec la fonction  require  )
-    // - mettre en place la request reservation
-    // - mettre en place la CANCELLATION avec les conditions automatiques ( = tout l'interet des smart contracts)
-    // - mettre en place des criteria sur ListAvailabilities (p-e en front-end = off-chain bullshit)
-    // - fonctionnalités easy : mettre en place les broadcast de changement de status
+const RES_CONTRACT_ADDRESS = process.env.RES_CONTRACT_ADDRESS
+	  || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
+const RES_ABI_FILE_PATH = process.env.RES_ABI_FILE_PATH
+	  || `${__dirname}/../../ressources/build/contracts/RES.json`;
 
 
 /* RES Contract */
-
 const RES = (function() {
-    const CONTRACT_ADDRESS = '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
-    const ABI_FILE_PATH = `${process.cwd()}/../build/contracts/RES.json`;
-
     let contract = null;
 
     const methods = {
@@ -102,14 +92,13 @@ const RES = (function() {
 
     return new Promise((resolve, reject) => {
         new Contract()
-            .withAddress(CONTRACT_ADDRESS)
-            .withABI(ABI_FILE_PATH)
+            .withAddress(RES_CONTRACT_ADDRESS)
+            .withABI(RES_ABI_FILE_PATH)
             .then(_contract => {
                 contract = _contract;
                 return resolve(methods); // expose methods when contract is ready
             });
     });
 })();
-
 
 module.exports = RES;
