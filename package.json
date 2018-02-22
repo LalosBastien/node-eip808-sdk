@@ -3,7 +3,7 @@
 			"version": "1.0.0",
 			"description": "npm module that allow request on the BlockChain Ethereum using BTU protocol (EIP808)",
 			"main": "./cjs/index.js",
-			"module": "./esm/index.js",
+			"module": "./cjs/index.js",
 			"directories": {
 						"test": "test"
 			},
