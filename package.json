@@ -8,9 +8,11 @@
 	"test": "test"
     },
     "scripts": {
-	"build-ressources": "cd ressources && rm -rf build/ && ./../node_modules/.bin/truffle compile && cp -r build/contracts/* ../esm/contracts/ABI && cp -r build/contracts/* ../cjs/contracts/ABI && cd ..",
-	"build-module": "babel esm --out-dir cjs",
-	"build": "npm run build-ressources && npm run build-module",
+	"build-ressources": "cd ressources && ./../node_modules/.bin/truffle compile && cd ..",
+	"build-ABI":"cp -r ressources/build/contracts/* esm/ABI/",
+	"build-module": "babel esm --out-dir cjs && cp -r esm/ABI cjs/",
+	"build": "npm run clean && npm run build-ressources && npm run build-ABI && npm run build-module",
+	"clean": "rm -rf cjs/* && rm -rf esm/ABI/* && rm -rf ressources/build/",
 	"prepublishOnly": "npm run build"
     },
     "babel": {
