@@ -15,7 +15,7 @@ var Contract = require('./../contractFactory');
 var ethereumjs = require('ethereumjs-abi');
 
 var BTU_CONTRACT_ADDRESS = process.env.BTU_CONTRACT_ADDRESS || '0x98d9f9e8debd4a632682ba207670d2a5acd3c489';
-var BTU_ABI = require('./ABI/BTU.json').abi;
+var BTU_ABI = require('../ABI/BTU.json').abi;
 
 /* BTU Contract */
 var BTU = function () {

@@ -6,7 +6,7 @@ const ethereumjs     = require('ethereumjs-abi');
 const RES_CONTRACT_ADDRESS = process.env.RES_CONTRACT_ADDRESS
 	  || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
 
-const RES_ABI = require('./ABI/RES.json').abi;
+const RES_ABI = require('../ABI/RES.json').abi;
 
 /* RES Contract */
 const RES = (function() {
