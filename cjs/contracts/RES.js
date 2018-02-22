@@ -221,7 +221,9 @@ var RES = function () {
   */
 
 	return new Promise(function (resolve, reject) {
-		new Contract().withAddress(RES_CONTRACT_ADDRESS).withABI(RES_ABI_FILE_PATH).then(function (_contract) {
+		new Contract().withAddress(RES_CONTRACT_ADDRESS)
+		// .withABI(RES_ABI_FILE_PATH)
+		.withABI(require('./ABI/RES.json').abi).then(function (_contract) {
 			contract = _contract;
 			return resolve(methods); // expose methods when contract is ready
 		});
