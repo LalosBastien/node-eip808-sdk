@@ -8,7 +8,7 @@
 	"test": "test"
     },
     "scripts": {
-	"build-ressources": "cd ressources && rm -rf build/ && ./../node_modules/.bin/truffle compile && cp -r build/contracts ../esm/contracts/ABI && cd ..",
+	"build-ressources": "cd ressources && rm -rf build/ && ./../node_modules/.bin/truffle compile && cp -r build/contracts ../esm/contracts/ABI && cp -r build/contracts ../cjs/contracts/ABI && cd ..",
 	"build-module": "babel esm --out-dir cjs",
 	"build": "npm run build-ressources && npm run build-module",
 	"prepublishOnly": "npm run build"
