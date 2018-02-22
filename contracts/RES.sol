@@ -1,3 +1,5 @@
+import "./BTU.sol";
+
 pragma solidity ^0.4.19;
 pragma experimental ABIEncoderV2;
 
@@ -24,6 +26,7 @@ contract RES {
   }
 
 
+  address BTUAddress = 0x345ca3e014aaf5dca488057592ee47305d9b3e10;
   uint availabilitiesNextId = 0;
 
   mapping (uint => availability) availabilities;
@@ -67,7 +70,6 @@ contract RES {
     return reservations;
   }
 
-
   function requestReservation(address _requester, availability _availability) public constant returns (uint status) {
     reservations.push(reservation({
 	_clientAddress: _requester,
@@ -84,10 +86,8 @@ contract RES {
     return 1;
   }
 
-
-
-
-  /* EXPERIMENTAL ZONE */
-
-
+  function GetBTUTotalSupply() public constant returns (uint) {
+    BTU btu = BTU(BTUAddress);
+    return btu.totalSupply();
+  }
 }
