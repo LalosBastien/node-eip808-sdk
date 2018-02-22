@@ -5,5 +5,6 @@ module.exports = {
     Contract: require('./contractFactory'),
     RES: require('./contracts/RES'),
     accountList: require('./utils/accountList'),
-    ipfs: require('./utils/ipfs')
+    ipfs: require('./utils/ipfs'),
+    resABI: require('./RES.json').abi
 };
