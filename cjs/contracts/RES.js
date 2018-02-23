@@ -82,6 +82,7 @@ var RES = function () {
 
 
 								availabilityObject._signature = signature;
+								availabilityObject._messageHash = signatureObject.messageHash;
 
 								/* turn availabilityObject into a list of values ordered by availabilityObject key name */
 								adaptList = Object.keys(availabilityObject).sort(function (key1, key2) {
@@ -89,17 +90,17 @@ var RES = function () {
 								}).map(function (key) {
 									return availabilityObject[key];
 								});
-								_context.next = 16;
+								_context.next = 17;
 								return (_contract$methods = contract.methods).publishAvailability.apply(_contract$methods, (0, _toConsumableArray3.default)(adaptList)).send({
 									from: accountAddress,
 									gas: 4500000 // ?
 								});
 
-							case 16:
+							case 17:
 								res = _context.sent;
 								return _context.abrupt('return', res);
 
-							case 18:
+							case 19:
 							case 'end':
 								return _context.stop();
 						}

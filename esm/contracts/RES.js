@@ -32,6 +32,7 @@ const RES = (function() {
 	    const signature = signatureObject.signature;
 
 	    availabilityObject._signature = signature;
+	    availabilityObject._messageHash = signatureObject.messageHash;
 
 	    /* turn availabilityObject into a list of values ordered by availabilityObject key name */
 	    const adaptList = Object.keys(availabilityObject)
