@@ -8,11 +8,8 @@
 	"test": "test"
     },
     "scripts": {
-	"build-ressources": "cd ressources && ./../node_modules/.bin/truffle compile && cd ..",
-	"build-ABI":"cp -r ressources/build/contracts/* esm/ABI/",
-	"build-module": "babel esm --out-dir cjs && cp -r esm/ABI cjs/",
-	"build": "npm run clean && npm run build-ressources && npm run build-ABI && npm run build-module",
-	"clean": "rm -rf cjs/* && rm -rf esm/ABI/* && rm -rf ressources/build/",
+	"build": "node build.js && cd ressources/ && truffle develop",
+	"clean": "rm -rf cjs/* && rm -rf esm/ABI/* && rm -rf esm/dynamicADDR.js && rm -rf ressources/build/",
 	"prepublishOnly": "npm run build"
     },
     "babel": {
@@ -52,11 +49,13 @@
 	"ethereumjs-abi": "^0.6.5",
 	"ethereumjs-tx": "^1.3.3",
 	"ethereumjs-util": "^5.1.4",
+	"find-node-modules": "^1.0.4",
 	"ipfs-api": "^18.1.1",
 	"joi": "^13.1.2",
 	"solc": "^0.4.20",
-	"web3": "^1.0.0-beta.30",
-	"truffle-hdwallet-provider": "0.0.3"
+	"suppose": "^0.6.2",
+	"truffle-hdwallet-provider": "0.0.3",
+	"web3": "^1.0.0-beta.30"
     },
     "devDependencies": {
 	"babel-cli": "^6.24.1",

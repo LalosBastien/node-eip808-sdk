@@ -22,12 +22,13 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var fs = require('fs');
 var web3 = require('./../utils/web3Conf');
 var validator = require('./../utils/validation');
 var Contract = require('./../contractFactory');
 var ethereumjs = require('ethereumjs-abi');
 
-var RES_CONTRACT_ADDRESS = process.env.RES_CONTRACT_ADDRESS || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
+var RES_CONTRACT_ADDRESS = fs.existsSync('../dynamicADDR.js') ? require('../dynamicADDR.js').RES : process.env.RES_CONTRACT_ADDRESS || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
 
 var RES_ABI = require('../ABI/RES.json').abi;
 

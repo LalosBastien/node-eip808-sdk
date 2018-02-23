@@ -1,9 +1,12 @@
+const fs             = require('fs');
 const web3           = require('./../utils/web3Conf');
 const Contract       = require('./../contractFactory');
 const ethereumjs     = require('ethereumjs-abi');
 
-const BTU_CONTRACT_ADDRESS = process.env.BTU_CONTRACT_ADDRESS
-	  || '0x98d9f9e8debd4a632682ba207670d2a5acd3c489';
+const BTU_CONTRACT_ADDRESS = fs.existsSync('../dynamicADDR.js')
+	  ? require('../dynamicADDR.js').BTU
+	  : process.env.BTU_CONTRACT_ADDRESS || '0x98d9f9e8debd4a632682ba207670d2a5acd3c489';
+
 const BTU_ABI = require('../ABI/BTU.json').abi;
 
 
