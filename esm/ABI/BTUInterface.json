@@ -268,10 +268,10 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// Abstract contract for the full ERC 20 Token standard\n// https://github.com/ethereum/EIPs/issues/20\npragma solidity ^0.4.19;\n\n\ncontract BTUInterface {\n\n    /// total amount of tokens\n    uint256 public totalSupply;\n\n    /// token meta-data\n    string public tokenName;\n    uint8 public tokenDecimals;\n    string public tokenSymbol;\n\n    /// @param _owner The address from which the balance will be retrieved\n    /// @return The balance\n    function balanceOf(address _owner) public view returns (uint256 balance);\n\n    /// @notice send `_value` token to `_to` from `msg.sender`\n    /// @param _to The address of the recipient\n    /// @param _value The amount of token to be transferred\n    /// @return Whether the transfer was successful or not\n    function transfer(address _to, uint256 _value) public returns (bool success);\n\n    /// @notice send `_value` token to `_to` from `_from` on the condition it is approved by `_from`\n    /// @param _from The address of the sender\n    /// @param _to The address of the recipient\n    /// @param _value The amount of token to be transferred\n    /// @return Whether the transfer was successful or not\n    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success);\n\n    /// @notice `msg.sender` approves `_spender` to spend `_value` tokens\n    /// @param _spender The address of the account able to transfer the tokens\n    /// @param _value The amount of tokens to be approved for transfer\n    /// @return Whether the approval was successful or not\n    function approve(address _spender, uint256 _value) public returns (bool success);\n\n    /// @param _owner The address of the account owning tokens\n    /// @param _spender The address of the account able to transfer the tokens\n    /// @return Amount of remaining tokens allowed to spent\n    function allowance(address _owner, address _spender) public view returns (uint256 remaining);\n\n    /// @param _spender The address of the account able to transfer the tokens\n    /// @param _addedValue The amount of tokens to increase the allowance by\n    /// @return Whether the increase was successful or not\n    function increaseApproval(address _spender, uint _addedValue) public returns (bool success);\n\n    /// @param _spender The address of the account able to transfer the tokens\n    /// @param _subtractedValue The amount of tokens to decrease the allowance by\n    /// @return Whether the decrease was successful or not\n    function decreaseApproval(address _spender, uint _subtractedValue) public returns (bool success);\n\n\n    event Transfer(address indexed _from, address indexed _to, uint256 _value);\n    event Approval(address indexed _owner, address indexed _spender, uint256 _value);\n}\n",
-  "sourcePath": "/home/sylvain/Development/ETNA/node-eip808-sdk/ressources/contracts/BTUInterface.sol",
+  "sourcePath": "/Users/hellstasis/Documents/ETNA/Master/MasterCodeCamp/BookingTokenUnit/node-eip808-sdk/ressources/contracts/BTUInterface.sol",
   "ast": {
     "attributes": {
-      "absolutePath": "/home/sylvain/Development/ETNA/node-eip808-sdk/ressources/contracts/BTUInterface.sol",
+      "absolutePath": "/Users/hellstasis/Documents/ETNA/Master/MasterCodeCamp/BookingTokenUnit/node-eip808-sdk/ressources/contracts/BTUInterface.sol",
       "exportedSymbols": {
         "BTUInterface": [
           395
@@ -1426,5 +1426,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-02-22T21:44:48.115Z"
+  "updatedAt": "2018-02-23T01:35:28.284Z"
 }
