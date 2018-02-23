@@ -32,12 +32,13 @@ const Contract = (function() {
     const buildContract   = function() {
         const [address, ABI] = [this.address, this.ABI];
 
-        return new Promise((resolve, reject) =>
-                           web3.eth.getCode(address)
-                           .then(res =>  res == "0x0"
-                                 ? reject(new Error(`Incorrect Contract Address : there is no smart contract at the following address : ${address}`))
-                                 : resolve(new web3.eth.Contract(ABI, address)))
-                          );
+	return new Promise((resolve, reject) => resolve(new web3.eth.Contract(ABI, address)));
+
+	// web3.eth.getCode(address)
+	// .then(res =>  res == "0x0"
+	// 	 ? reject(new Error(`Incorrect Contract Address : there is no smart contract at the following address : ${address}`))
+	// 	 : resolve(new web3.eth.Contract(ABI, address))
+	// 	)
     };
 
     const isContractReady = function() {

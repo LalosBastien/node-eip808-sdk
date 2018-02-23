@@ -14,7 +14,7 @@ var RES = require('./contracts/RES');
 
 var ACCOUNT_ADDRESS = '0xf17f52151ebef6c7334fad080c5704d77216b732';
 var ACCOUNT_PASSWORD = 'fake_password';
-var ACCOUNT_PRIVATE_KEY = 'c87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3';
+var ACCOUNT_PRIVATE_KEY = 'ae6ae8e5ccbfb04590405997ee2d52d2b330726137b875053c36d94e974d162f';
 
 var availabilityTest = {
     _resourceId: 11,
@@ -32,7 +32,7 @@ var availabilityTest = {
 
 (function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-        var RESContract, test2, btuCount;
+        var RESContract, test, test2, reqReservations, reservations;
         return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
@@ -43,21 +43,40 @@ var availabilityTest = {
                     case 2:
                         RESContract = _context.sent;
                         _context.next = 5;
-                        return RESContract.listOffers(ACCOUNT_ADDRESS, "string_criteria");
+                        return RESContract.publishOffer(availabilityTest, ACCOUNT_ADDRESS, ACCOUNT_PRIVATE_KEY);
 
                     case 5:
+                        test = _context.sent;
+
+                        console.log({ test: test });
+                        _context.next = 9;
+                        return RESContract.listOffers(ACCOUNT_ADDRESS);
+
+                    case 9:
                         test2 = _context.sent;
 
                         console.log({ test2: test2 });
-                        _context.next = 9;
-                        return RESContract.getTotalBTU();
 
-                    case 9:
-                        btuCount = _context.sent;
+                        // const btuCount = await RESContract.getTotalBTU();
+                        // console.log({btuCount});
 
-                        console.log({ btuCount: btuCount });
+                        _context.next = 13;
+                        return RESContract.requestReservation(0, ACCOUNT_ADDRESS);
 
-                    case 11:
+                    case 13:
+                        reqReservations = _context.sent;
+
+                        console.log({ reqReservations: reqReservations });
+
+                        _context.next = 17;
+                        return RESContract.listReservations();
+
+                    case 17:
+                        reservations = _context.sent;
+
+                        console.log({ reservations: reservations });
+
+                    case 19:
                     case 'end':
                         return _context.stop();
                 }

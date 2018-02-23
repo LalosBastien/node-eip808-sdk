@@ -17,6 +17,21 @@ const BTU = (function() {
     const methods = {
 	async totalSupply() {
 	    return await contract.methods.totalSupply().call();
+	},
+
+	async getBalanceOf(address) {
+	    return await contract.methods.balanceOf(address).call();
+	},
+
+	async approve(_spender, _value, client) {
+	    return await contract.methods.approve(client, _value).send({
+		from: _spender,
+		gas: 45000
+	    });
+	},
+
+	async allowance(owner, spender) {
+	    return await contract.methods.allowance(owner, spender).call();
 	}
     };
 

@@ -38,10 +38,14 @@ var Contract = function () {
 
 
         return new Promise(function (resolve, reject) {
-            return web3.eth.getCode(address).then(function (res) {
-                return res == "0x0" ? reject(new Error('Incorrect Contract Address : there is no smart contract at the following address : ' + address)) : resolve(new web3.eth.Contract(ABI, address));
-            });
+            return resolve(new web3.eth.Contract(ABI, address));
         });
+
+        // web3.eth.getCode(address)
+        // .then(res =>  res == "0x0"
+        // 	 ? reject(new Error(`Incorrect Contract Address : there is no smart contract at the following address : ${address}`))
+        // 	 : resolve(new web3.eth.Contract(ABI, address))
+        // 	)
     };
 
     var isContractReady = function isContractReady() {

@@ -2,7 +2,7 @@ const RES = require('./contracts/RES');
 
 const ACCOUNT_ADDRESS = '0xf17f52151ebef6c7334fad080c5704d77216b732';
 const ACCOUNT_PASSWORD = 'fake_password';
-const ACCOUNT_PRIVATE_KEY = 'c87509a1c067bbde78beb793e6fa76530b6382a4c0241e5e4a9ec0a0f44dc0d3';
+const ACCOUNT_PRIVATE_KEY = 'ae6ae8e5ccbfb04590405997ee2d52d2b330726137b875053c36d94e974d162f';
 
 const availabilityTest = {
     _resourceId: 11,
@@ -22,10 +22,18 @@ const availabilityTest = {
 (async function main() {
     const RESContract = await RES;
 
-    // const test = await RESContract.publishOffer(availabilityTest, ACCOUNT_ADDRESS, ACCOUNT_PRIVATE_KEY);
-    // console.log({test});
-    const test2 = await RESContract.listOffers(ACCOUNT_ADDRESS, "string_criteria");
+    const test = await RESContract.publishOffer(availabilityTest, ACCOUNT_ADDRESS, ACCOUNT_PRIVATE_KEY);
+    console.log({test});
+    const test2 = await RESContract.listOffers(ACCOUNT_ADDRESS);
     console.log({test2});
-    const btuCount = await RESContract.getTotalBTU();
-    console.log({btuCount});
+
+    // const btuCount = await RESContract.getTotalBTU();
+    // console.log({btuCount});
+
+    const reqReservations = await RESContract.requestReservation(1, ACCOUNT_ADDRESS);
+    console.log({reqReservations});
+
+    // const reservations = await RESContract.listReservations();
+    // console.log({reservations});
+
 })();
