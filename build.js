@@ -6,6 +6,16 @@ const findNodeModules = require('find-node-modules');
 
 const NMPath = findNodeModules({ cwd: process.cwd(), relative: false })[0];
 
+const install = () => new Promise((resolve, reject) => {
+    exec("npm install babel-node babel-preset-es2015 babel-preset-stage-2 truffle", (err, stdout, stderr) => {
+	console.log("Install npm tools ... ");
+	return err
+	    ? resolve(err)
+	    : resolve("done");
+    });
+});
+
+
 const killTruffle = () => new Promise((resolve, reject) => {
     exec("killall truffle", (err, stdout, stderr) => {
 	console.log("Kill all truffle process ... ");
@@ -242,6 +252,7 @@ const parseDynamicADDR = data => data
 
 
 clean()
+    .then(install)
     .then(killTruffle)
     .then(compile)
     .then(exportABIs)
