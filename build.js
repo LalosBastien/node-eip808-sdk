@@ -1,8 +1,10 @@
-const fs           = require('fs');
-const cp           = require('child_process');
-const exec         = cp.exec;
-const contractList = ["RES", "BTU"];
+const fs              = require('fs');
+const cp              = require('child_process');
+const exec            = cp.exec;
+const contractList    = ["RES", "BTU"];
+const findNodeModules = require('find-node-modules');
 
+const NMPath = findNodeModules({ cwd: process.cwd(), relative: false })[0];
 
 const killTruffle = () => new Promise((resolve, reject) => {
     exec("killall truffle", (err, stdout, stderr) => {
@@ -29,7 +31,7 @@ const clean = () => new Promise((resolve, reject) => {
  * exec `truffle compile` to get ABIs from Solidity files
  */
 const compile = () => new Promise((resolve, reject) => {
-    exec("cd ressources && ./../node_modules/.bin/truffle compile && cd ..", (err, stdout, stderr) => {
+    exec(`cd ressources && ${NMPath}/.bin/truffle compile && cd ..`, (err, stdout, stderr) => {
 	console.log("Compiling ... ");
 	return err
 	    ? reject(err)
