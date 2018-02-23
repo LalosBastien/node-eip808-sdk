@@ -1,10 +1,12 @@
+const fs             = require('fs');
 const web3           = require('./../utils/web3Conf');
 const validator      = require('./../utils/validation');
 const Contract       = require('./../contractFactory');
 const ethereumjs     = require('ethereumjs-abi');
 
-const RES_CONTRACT_ADDRESS = process.env.RES_CONTRACT_ADDRESS
-	  || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
+const RES_CONTRACT_ADDRESS = fs.existsSync('../dynamicADDR.js')
+	  ? require('../dynamicADDR.js').RES
+	  : process.env.RES_CONTRACT_ADDRESS || '0x8f0483125fcb9aaaefa9209d8e9d7b9c8b9fb90f';
 
 const RES_ABI = require('../ABI/RES.json').abi;
 
