@@ -57,15 +57,18 @@ const transpile = () => new Promise((resolve, reject) => {
  * exec `truffle migrate` and get the addresses of the smart-contracts
  */
 const migrate = () => new Promise((resolve, reject) => {
-    exec("cd ressources/ && truffle migrate", (err, stdout, stderr) => {
-	const addresses = parseDynamicADDR(stdout);
-	const code = `module.exports = ${JSON.stringify(addresses)};\n`;
+    truffleDevelop().then(resObj => {
+	exec("cd ressources/ && truffle migrate && killall truffle", (err, stdout, stderr) => {
+	    const addresses = parseDynamicADDR(stdout);
+	    const code = `module.exports = ${JSON.stringify(addresses)};\n`;
 
-	fs.writeFile("esm/dynamicADDR.js", code, (err) => {
-	    console.log("Generating esm/dynamicADDR.js");
-	    return err
-		? reject(err)
-		: resolve("done");
+	    fs.writeFile("esm/dynamicADDR.js", code, (err) => {
+		console.log("Generating esm/dynamicADDR.js");
+		resObj.getStd().stdin.end();
+		return err
+		    ? reject(err)
+		    : resolve("done");
+	    });
 	});
     });
 });
