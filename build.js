@@ -31,7 +31,7 @@ const clean = () => new Promise((resolve, reject) => {
  * exec `truffle compile` to get ABIs from Solidity files
  */
 const compile = () => new Promise((resolve, reject) => {
-    exec(`cd ressources && ${NMPath}/.bin/truffle compile && cd ..`, (err, stdout, stderr) => {
+    exec(`cd ressources && truffle compile && cd ..`, (err, stdout, stderr) => {
 	console.log("Compiling ... ");
 	return err
 	    ? reject(err)
