@@ -4,6 +4,15 @@ const exec         = cp.exec;
 const contractList = ["RES", "BTU"];
 
 
+const killTruffle = () => new Promise((resolve, reject) => {
+    exec("killall truffle", (err, stdout, stderr) => {
+	console.log("Kill all truffle process ... ");
+	return err
+	    ? resolve(err)
+	    : resolve("done");
+    });
+});
+
 /*
  * Removing all the previously generated content
  */
@@ -211,7 +220,6 @@ const truffleFlow = () => new Promise((resolve, reject) => {
 	});
 });
 
-
 const parseCreatedAccounts = data => {
     const lines = data.split('\n').filter(line => line.match(/\([0-9]\)\ .+/g));
     const _accounts = lines.slice(0,10);
@@ -232,11 +240,13 @@ const parseDynamicADDR = data => data
 
 
 clean()
+    .then(killTruffle)
     .then(compile)
     .then(exportABIs)
     .then(migrate)
     .then(transpile)
     .then(truffleFlow)
-    .then(_ => {
-
+    .then(lastRes => {
+	console.log("Done.");
+	process.exit(0);
     });
